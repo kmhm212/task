@@ -4,6 +4,10 @@ require_once __DIR__ . '/functions.php';
 $title = '';
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $title = filter_input(INPUT_POST, 'title');
+    $errors = insertValidate($title);
+    if (empty($errors)) {
+        insertTask($title);
+    }
 }
 
 $notyet_tasks = findTaskByStatus(TASK_STATUS_NOTYET);
@@ -18,7 +22,8 @@ $notyet_tasks = findTaskByStatus(TASK_STATUS_NOTYET);
 <body>
     <div class="wrapper">
         <div class="new-task">
-            <hi>My Tasks</hi>
+            <h1>My Tasks</h1>
+            <?php if($errors) echo createErrMsg($errors) ?>
             <form action="" method="post">
                 <input type="text" name="title" id="" placeholder="タスクを入力してください">
                 <input type="submit" value="登録" class="btn submit-btn">
