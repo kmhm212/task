@@ -6,6 +6,7 @@
 <body>
     <div class="wrapper">
         <h2>タスク更新</h2>
+        
         <form action="" method="post">
             <input type="text" name="title">
             <input type="submit" value="更新" class="btn submit-btn">
