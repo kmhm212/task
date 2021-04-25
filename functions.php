@@ -141,6 +141,20 @@ function updateTask($id, $title)
     $stmt->execute();
 }
 
+function deleteTask($id) {
+    $dbh = connectDb();
+    $sql = <<<EOM
+    DELETE FROM
+        tasks
+    WHERE
+        id = :id
+    EOM;
+
+    $stmt = $dbh->prepare($sql);
+    $stmt->bindParam(':id', $id, PDO::PARAM_INT);
+    $stmt->execute();
+}
+
 function updateStatusToDone($id) 
 {
     $dbh = connectDb();

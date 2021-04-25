@@ -2,13 +2,11 @@
 
 require_once __DIR__ . "/functions.php";
 
-$id = filter_input(INPUT_GET, 'id');
+$id = filter_input(INPUT_GET, 'id');    
 
-// タスク完了処理
+// deleteTask関数
+deleteTask($id);
 
-updateStatusToDone($id);
-
-// index.phpにリダイレクト
 header('Location: index.php');
 exit;
 ?>
