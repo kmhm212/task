@@ -87,6 +87,60 @@ function findTaskByStatus($status)
 
 }
 
+function findById($id)
+{
+    $dbh = connectDb();
+
+    $sql = <<<EOM
+    SELECT
+        * 
+    FROM 
+        tasks
+    WHERE 
+        id = :id;
+    EOM;
+
+    $stmt = $dbh->prepare($sql);
+
+    $stmt->bindParam(':id', $id, PDO::PARAM_INT);
+
+    $stmt->execute();
+
+    return $stmt->fetch(PDO::FETCH_ASSOC);
+}
+
+function updateValidate($title, $task) 
+{
+    $errors = [];
+    if ($title == '') {
+        $errors[] = MSG_TITLE_REQUIRED;
+    }
+    if ($title == $task['title']) {
+        $errors[] = MSG_TITLE_NO_CHANGE;
+    }
+    return $errors;
+}
+
+function updateTask($id, $title)
+{
+    $dbh = connectDb();
+
+    $sql = <<<EOM
+    UPDATE
+        tasks
+    SET
+        title = :title
+    WHERE
+        id = :id
+    EOM;
+
+    $stmt = $dbh->prepare($sql);
+
+    $stmt->bindParam(':title', $title, PDO::PARAM_STR);
+    $stmt->bindParam(':id', $id, PDO::PARAM_INT);
+    $stmt->execute();
+}
+
 function updateStatusToDone($id) 
 {
     $dbh = connectDb();
